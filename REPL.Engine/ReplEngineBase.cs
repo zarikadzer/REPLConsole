@@ -9,6 +9,10 @@
     {
         protected static Dictionary<Guid, Script> ScriptSessions = new Dictionary<Guid, Script>();
 
+        public event EventHandler<string> OnOutput;
+
+        public event EventHandler<string> OnError;
+
         public ReplEngineBase(Guid sessionId)
         {
             SessionId = sessionId;
@@ -17,6 +21,17 @@
         public Guid SessionId { get; set; }
 
         public abstract Script GetScriptSession(string command, ScriptOptions options = null);
+        public abstract void InitEngine();
+
+        protected void HandleOutputEvent(string message) => HandleEvent(OnOutput, message);
+        protected void HandleErrorEvent(string message) => HandleEvent(OnError, message);
+
+        private void HandleEvent(EventHandler<string> eventHandler, string response) {
+            var h = eventHandler;
+            if (h == null) {
+                h.Invoke(this, response);
+            }
+        }
 
         public EvalResult Eval(string command)
         {

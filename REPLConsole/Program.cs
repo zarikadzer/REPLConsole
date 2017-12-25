@@ -16,14 +16,28 @@
         {
             DoSomeWork();
             var sessionId = Guid.NewGuid();
-            var engine = new ReplEngineCS(sessionId);
+            var engine = ReplRepository.GetCSEngine(sessionId);
+            engine.OnOutput += Engine_OnOutput;
+            engine.OnError += Engine_OnError;
+            engine.InitEngine();
+
+            _console.WriteLineInfo("------------------------------------------------------------------------");
+            _console.WriteLineInfo($" New code session started with Id: {sessionId}");
+            _console.WriteLineInfo("------------------------------------------------------------------------");
+
             ProcessRepl(engine, sessionId);
         }
 
-        public static void ProcessRepl(ReplEngineCS engine, Guid sessionId)
-        {
-            InitRepl(engine, sessionId);
+        private static void Engine_OnError(object sender, string e) {
+            _console.WriteErrorLine(e);
+        }
 
+        private static void Engine_OnOutput(object sender, string message) {
+            _console.Out.WriteLine(message);
+        }
+
+        public static void ProcessRepl(ReplEngineBase engine, Guid sessionId)
+        {
             StringBuilder inputString = null;
             while (inputString==null || inputString.ToString() .ToLower().TrimEnd() != "exit") {
                 _console.WriteInfo("> ");
@@ -53,33 +67,7 @@
             }
         }
 
-        public static void InitRepl(ReplEngineCS engine, Guid sessionId) {
-            string appDir = Path.GetDirectoryName(typeof(Program).Assembly.ManifestModule.FullyQualifiedName);
 
-            //All dependend assemblies
-            foreach (var dll in Directory.EnumerateFiles(appDir, "*.dll")) {
-                var loadDllCmd = $"#r \"{dll}\"";
-                var initRefsResult = engine.Eval(loadDllCmd);
-                _console.Out.WriteLine(loadDllCmd + initRefsResult);
-            }
-
-            //Add reference to the executable assembly
-            var loadExeCmd = $"#r \"{appDir}\\{AppDomain.CurrentDomain.FriendlyName}\"";
-            var initExeResult = engine.Eval(loadExeCmd);
-            _console.Out.WriteLine(loadExeCmd + initExeResult);
-
-            //Initial references and usings
-            var lines = File.ReadAllLines($"{appDir}\\InitInteractiveBase.csx");
-            foreach(var line in lines)
-            {
-                var initResult = engine.Eval(line);
-                _console.Out.WriteLine(line + initExeResult);
-            }
-            
-            _console.WriteLineInfo("------------------------------------------------------------------------");
-            _console.WriteLineInfo($" New code session started with Id: {sessionId}");
-            _console.WriteLineInfo("------------------------------------------------------------------------");
-        }
 
         #region Some work...
 

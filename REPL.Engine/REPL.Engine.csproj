@@ -187,6 +187,7 @@
     <Compile Include="ReplEngineBase.cs" />
     <Compile Include="ReplEngineCS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

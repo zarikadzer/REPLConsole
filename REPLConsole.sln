@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REPL.DI", "REPL.DI\REPL.DI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REPL.SyntaxAnalyzer", "REPL.SyntaxAnalyzer\REPL.SyntaxAnalyzer.csproj", "{6A9E1408-9CE8-4211-938F-36246EF1B6B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REPL.Service", "REPL.Service\REPL.Service.csproj", "{EA0069EF-1B1E-48AE-8DE6-F78A955A812F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6A9E1408-9CE8-4211-938F-36246EF1B6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A9E1408-9CE8-4211-938F-36246EF1B6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A9E1408-9CE8-4211-938F-36246EF1B6B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA0069EF-1B1E-48AE-8DE6-F78A955A812F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA0069EF-1B1E-48AE-8DE6-F78A955A812F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA0069EF-1B1E-48AE-8DE6-F78A955A812F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA0069EF-1B1E-48AE-8DE6-F78A955A812F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
