@@ -1,0 +1,10 @@
+.vs/*
+REPL.DI/bin/*
+REPL.Engine/bin/*
+REPL.SyntaxAnalyzer/bin/*
+REPLConsole/bin/*
+REPL.DI/obj/*
+REPL.Engine/obj/*
+REPL.SyntaxAnalyzer/obj/*
+REPLConsole/obj/*
+*.csproj.user

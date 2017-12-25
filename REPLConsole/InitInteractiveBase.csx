@@ -1,0 +1,25 @@
+﻿#r "System"
+#r "System.IO"
+#r "System.Core"
+#r "System.Xml.Linq"
+#r "System.Data.DataSetExtensions"
+#r "Microsoft.CSharp"
+#r "System.Data"
+#r "System.Net.Http"
+#r "System.Xml"
+#r "System.ValueTuple"
+using System;
+using System.IO;
+using System.Collections.Generic;
+using static System.Console;
+using System.Diagnostics;
+using System.Dynamic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using REPL.DI.Debugger;
+using REPL.Engine;
+using REPL.SyntaxAnalyzer;
+using REPLConsole;
