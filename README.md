@@ -34,9 +34,7 @@ Program.aInjector.Bind(typeof(A), new ClassDebugger(new B()));
 ```c#
 Program.aInjector.ContainerMode = REPL.DI.ContainerMode.ReturnsFirst;
 ```
-
-
-#Unsolved issues
+## Unsolved issues
 1. Side-effect: Ignore processing of the previous *Console.WriteLine(...* commands.
 2. Memory Usage: Minimize a garbage.
 3. Remote requests: Develop the WCF service.
