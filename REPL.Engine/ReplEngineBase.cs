@@ -3,9 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.CodeAnalysis.Scripting;
+	using System.Reflection;
+	using Microsoft.CodeAnalysis.Scripting;
+	using REPL.Contracts;
 
-    public abstract class ReplEngineBase : IReplEngine
+	public abstract class ReplEngineBase : IReplEngine
     {
         protected static Dictionary<Guid, Script> ScriptSessions = new Dictionary<Guid, Script>();
 
@@ -21,14 +23,14 @@
         public Guid SessionId { get; set; }
 
         public abstract Script GetScriptSession(string command, ScriptOptions options = null);
-        public abstract void InitEngine();
+        public abstract void InitEngineWithAssembly(Assembly parentAssembly);
 
         protected void HandleOutputEvent(string message) => HandleEvent(OnOutput, message);
         protected void HandleErrorEvent(string message) => HandleEvent(OnError, message);
 
         private void HandleEvent(EventHandler<string> eventHandler, string response) {
             var h = eventHandler;
-            if (h == null) {
+            if (h != null) {
                 h.Invoke(this, response);
             }
         }

@@ -1,15 +1,20 @@
 ﻿namespace REPL.Service
 {
-    using System;
+	using System;
+	using REPL.Contracts;
+	using REPL.Engine;
+	using REPL.SyntaxAnalyzer;
 
-    public class ReplService : IReplService
+	public class ReplService : IReplService
     {
-        public string Eval(Guid sessionId, string code) {
-            //
-            // TODO: Add the implementation of a single REPL iteration.
-            //
-            return string.Format("You entered: {0} {1}", sessionId, code);
+        public EvalResult Eval(Guid sessionId, string code) {
+			var analyzer = new ReplAnalyzerCS(code);
+			if (!analyzer.IsCompleteSubmission()) {
+				return new EvalResult("Submission is not completed!", true);
+			}
+			var engine = ReplRepository.GetCSEngine(sessionId);
+			engine.InitEngineWithAssembly(typeof(ReplService).Assembly);
+			return engine.Eval(code);
         }
-
-    }
+	}
 }

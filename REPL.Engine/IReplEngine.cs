@@ -1,15 +1,6 @@
 ﻿namespace REPL.Engine
 {
-    public class EvalResult
-    {
-        public string StringResult { get; set; }
-        public bool HasError { get; set; }
-
-        public override string ToString()
-        {
-            return StringResult;
-        }
-    }
+	using REPL.Contracts;
 
     public interface IReplEngine
     {

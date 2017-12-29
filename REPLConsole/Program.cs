@@ -19,7 +19,7 @@
             var engine = ReplRepository.GetCSEngine(sessionId);
             engine.OnOutput += Engine_OnOutput;
             engine.OnError += Engine_OnError;
-            engine.InitEngine();
+            engine.InitEngineWithAssembly(typeof(Program).Assembly);
 
             _console.WriteLineInfo("------------------------------------------------------------------------");
             _console.WriteLineInfo($" New code session started with Id: {sessionId}");

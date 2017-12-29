@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
+﻿namespace REPL.Service
+{
+	using REPL.Contracts;
+	using System;
+	using System.ServiceModel;
+	using System.ServiceModel.Web;
 
-namespace REPL.Service
-{   
-    [ServiceContract]
+	[ServiceContract]
     public interface IReplService
     {
         [OperationContract]
-        string Eval(Guid sessionId, string code);
+		[WebInvoke(Method = "POST", UriTemplate = "repl/eval", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+		EvalResult Eval(Guid sessionId, string code);
     }
 }
