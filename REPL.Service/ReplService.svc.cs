@@ -7,7 +7,7 @@
 
 	public class ReplService : IReplService
     {
-        public EvalResult Eval(Guid sessionId, string code) {
+        public EvalResult EvalCS(Guid sessionId, string code) {
 			var analyzer = new ReplAnalyzerCS(code);
 			if (!analyzer.IsCompleteSubmission()) {
 				return new EvalResult("Submission is not completed!", true);
@@ -16,5 +16,5 @@
 			engine.InitEngineWithAssembly(typeof(ReplService).Assembly);
 			return engine.Eval(code);
         }
-	}
+    }
 }

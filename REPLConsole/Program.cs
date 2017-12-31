@@ -8,6 +8,8 @@
     using REPL.DI.Debugger;
     using REPL.Engine;
     using REPL.SyntaxAnalyzer;
+    using System.Linq;
+    using Microsoft.CodeAnalysis;
 
     public class Program
     {
@@ -39,7 +41,7 @@
         public static void ProcessRepl(ReplEngineBase engine, Guid sessionId)
         {
             StringBuilder inputString = null;
-            while (inputString==null || inputString.ToString() .ToLower().TrimEnd() != "exit") {
+            while (inputString == null || inputString.ToString().ToLower().TrimEnd() != "exit") {
                 _console.WriteInfo("> ");
                 bool isSubmissionCompleted = false;
                 inputString = new StringBuilder("");
@@ -57,11 +59,27 @@
                 var evalResult = engine.Eval(inputString.ToString());
 
                 //Print
-                if (evalResult?.HasError ?? false) {
-                    _console.WriteErrorLine(evalResult);
-                } else {
-                    if (!string.IsNullOrEmpty(evalResult?.ToString())) {
+                if (evalResult == null) {
+                    continue;
+                }
+
+                if (!evalResult.HasError && !evalResult.HasWarnings) {
+                    if (!string.IsNullOrEmpty(evalResult.ToString())) {
                         _console.Out.WriteLine(evalResult);
+                    }
+                }
+
+                foreach (var d in evalResult.Diagnostics) {
+                    switch (d.Severity) {
+                        case DiagnosticSeverity.Error:
+                            _console.WriteErrorLine(d.Message as Object);
+                        break;
+                        case DiagnosticSeverity.Warning:
+                            _console.WriteWarningLine(d.Message as Object);
+                        break;
+                        default:
+                            _console.WriteLineInfo(d.Message as Object);
+                        break;
                     }
                 }
             }

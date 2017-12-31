@@ -47,6 +47,18 @@
             WriteColored(Error, ConsoleColor.Red, format, args);
         }
 
+        public virtual void WriteWarningLine(string format, params object[] args) {
+            WriteColoredLine(Error, ConsoleColor.Yellow, format, args);
+        }
+
+        public virtual void WriteWarningLine(object format) {
+            WriteColoredLine(Error, ConsoleColor.Yellow, format);
+        }
+
+        public virtual void WriteWarning(string format, params object[] args) {
+            WriteColored(Error, ConsoleColor.Yellow, format, args);
+        }
+
         public virtual void WriteLineInfo(string format, params object[] args)
         {
             WriteColoredLine(Error, ConsoleColor.DarkGreen, format, args);

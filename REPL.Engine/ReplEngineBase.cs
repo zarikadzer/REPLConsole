@@ -6,8 +6,9 @@
 	using System.Reflection;
 	using Microsoft.CodeAnalysis.Scripting;
 	using REPL.Contracts;
+    using Microsoft.CodeAnalysis;
 
-	public abstract class ReplEngineBase : IReplEngine
+    public abstract class ReplEngineBase : IReplEngine
     {
         protected static Dictionary<Guid, Script> ScriptSessions = new Dictionary<Guid, Script>();
 
@@ -45,9 +46,13 @@
             var diagnostics = script.Compile();
             if (!diagnostics.IsEmpty)
             {
+                var diagResult = diagnostics.Select(x => new DiagnosticsResult(x.ToString(), x.Severity)).ToList();
+                var hasErrors = diagnostics.Any(x => x.Severity == DiagnosticSeverity.Error || (x.Severity == DiagnosticSeverity.Warning && x.IsWarningAsError));
+                var hasWarnings = diagnostics.Any(x => x.Severity == DiagnosticSeverity.Warning);
                 return new EvalResult {
-                    StringResult = diagnostics.Select(x => x.ToString()).Aggregate((x, y) => $"{x}\r\n{y}"),
-                    HasError = true
+                    StringResult = hasErrors && hasWarnings ? "" : diagnostics.Select(x => x.ToString()).Aggregate((x, y) => $"{x}\r\n{y}"),
+                    Diagnostics = diagResult,
+                    HasError = hasErrors
                 };
             }
 
@@ -61,14 +66,15 @@
                 return new EvalResult
                 {
                     StringResult = result.ReturnValue?.ToString(),
+                    Diagnostics = new List<DiagnosticsResult>(),
                     HasError = false
                 };
             }
             catch (Exception ex)
             {
-                return new EvalResult
-                {
+                return new EvalResult {
                     StringResult = ex.Message,
+                    Diagnostics = new List<DiagnosticsResult>(),
                     HasError = true
                 };
             }

@@ -19,30 +19,31 @@
 
         public override void InitEngineWithAssembly(Assembly parentAssembly) {
             string appDir = Path.GetDirectoryName(parentAssembly.GetFiles().FirstOrDefault().Name);
-			//Initial references and usings
-			var lines = GetInitFileContents().Split('\n').ToList();
-			if(lines!=null && lines.Count > 1) {
-				lines.RemoveAt(0);
-			}
-			foreach (var line in lines) {
-				if(line!=null && line.Trim() == "") {
-					continue;
-				}
-				var initResult = Eval(line);
-				HandleOutputEvent(line + initResult);
-			}
-
+            
 			//All dependend assemblies
 			foreach (var dll in Directory.EnumerateFiles(appDir, "*.dll")) {
                 var loadDllCmd = $"#r \"{dll}\"";
                 var initRefsResult = Eval(loadDllCmd);
                 HandleOutputEvent(loadDllCmd + initRefsResult);
             }
-
+            
 			//Add reference to the executable assembly
 			var loadExeCmd = $"#r \"{parentAssembly.GetFiles().FirstOrDefault().Name}\"";
 			var initExeResult = Eval(loadExeCmd);
             HandleOutputEvent(loadExeCmd + initExeResult);
+
+            //Initial references and usings
+            var lines = GetInitFileContents().Split('\n').ToList();
+            if (lines != null && lines.Count > 1) {
+                lines.RemoveAt(0);
+            }
+            foreach (var line in lines) {
+                if (line != null && line.Trim() == "") {
+                    continue;
+                }
+                var initResult = Eval(line);
+                HandleOutputEvent(line + initResult);
+            }
         }
 
         public override Script GetScriptSession(string command, ScriptOptions options = null)
