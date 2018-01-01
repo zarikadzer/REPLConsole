@@ -1,6 +1,6 @@
 ﻿namespace REPL.Engine
 {
-	using REPL.Contracts;
+    using REPL.Contracts;
 
     public interface IReplEngine
     {

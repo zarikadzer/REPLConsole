@@ -1,17 +1,17 @@
 ﻿namespace REPL.Service
 {
-	using REPL.Contracts;
-	using System;
+    using REPL.Contracts;
+    using System;
     using System.ComponentModel;
     using System.ServiceModel;
-	using System.ServiceModel.Web;
+    using System.ServiceModel.Web;
 
-	[ServiceContract]
+    [ServiceContract]
     public interface IReplService
     {
         [OperationContract]
-		[WebInvoke(Method = "POST", UriTemplate = "repl/eval/cs", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        [WebInvoke(Method = "POST", UriTemplate = "repl/eval/cs", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         [Description("Evaluates the C# code and returns the EvalResult object.")]
-		EvalResult EvalCS(Guid sessionId, string code);
+        EvalResult EvalCS(Guid sessionId, string code);
     }
 }

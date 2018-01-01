@@ -14,8 +14,7 @@
     public class Program
     {
         private static ConsoleIO _console = ConsoleIO.Default;
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             DoSomeWork();
             var sessionId = Guid.NewGuid();
             var engine = ReplRepository.GetCSEngine(sessionId);
@@ -38,8 +37,7 @@
             _console.Out.WriteLine(message);
         }
 
-        public static void ProcessRepl(ReplEngineBase engine, Guid sessionId)
-        {
+        public static void ProcessRepl(ReplEngineBase engine, Guid sessionId) {
             StringBuilder inputString = null;
             while (inputString == null || inputString.ToString().ToLower().TrimEnd() != "exit") {
                 _console.WriteInfo("> ");
@@ -72,13 +70,13 @@
                 foreach (var d in evalResult.Diagnostics) {
                     switch (d.Severity) {
                         case DiagnosticSeverity.Error:
-                            _console.WriteErrorLine(d.Message as Object);
+                        _console.WriteErrorLine(d.Message as Object);
                         break;
                         case DiagnosticSeverity.Warning:
-                            _console.WriteWarningLine(d.Message as Object);
+                        _console.WriteWarningLine(d.Message as Object);
                         break;
                         default:
-                            _console.WriteLineInfo(d.Message as Object);
+                        _console.WriteLineInfo(d.Message as Object);
                         break;
                     }
                 }
@@ -109,21 +107,20 @@
             });
 
             action.BeginInvoke(null, null);
-        } 
+        }
 
         #endregion
     }
 
-    public class A: IDebuggable
+    public class A : IDebuggable
     {
         public string Value { get; set; }
         public string Value2 { get; set; }
 
-        public virtual DebugInfo GetDebugInfo()
-        {
+        public virtual DebugInfo GetDebugInfo() {
             return new DebugInfo(Value);
         }
-        
+
     }
- 
+
 }

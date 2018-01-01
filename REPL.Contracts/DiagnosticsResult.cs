@@ -6,7 +6,8 @@
 
     [DataContract(Name = "diagnostics_result")]
     [Serializable]
-    public class DiagnosticsResult {
+    public class DiagnosticsResult
+    {
 
         #region Constructors: Public
 

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace REPL.DI
+﻿namespace REPL.DI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public enum ContainerMode
     {
         ReturnsLast,
@@ -22,7 +20,7 @@ namespace REPL.DI
             get { return _containerMode; }
             set { _containerMode = value; }
         }
-        
+
         public void Bind(Type type, InstanceType instance) {
             if (!Container.ContainsKey(type)
                 || !Container.TryGetValue(type, out var value)
@@ -32,21 +30,19 @@ namespace REPL.DI
             Container[type].Add(instance);
         }
 
-        public InstanceType Get(Type type)
-        {
-            if(!Container.TryGetValue(type, out var instances) || instances == null) {
+        public InstanceType Get(Type type) {
+            if (!Container.TryGetValue(type, out var instances) || instances == null) {
                 return default(InstanceType);
             }
-            switch (ContainerMode)
-            {
+            switch (ContainerMode) {
                 case ContainerMode.ReturnsLast:
-                    return instances.LastOrDefault();
+                return instances.LastOrDefault();
                 case ContainerMode.ReturnsFirst:
-                    return instances.FirstOrDefault();
+                return instances.FirstOrDefault();
                 default:
-                    throw new NotSupportedException("Not supported mode: "+ ContainerMode.ToString());
+                throw new NotSupportedException("Not supported mode: " + ContainerMode.ToString());
             }
-            
+
         }
     }
 }

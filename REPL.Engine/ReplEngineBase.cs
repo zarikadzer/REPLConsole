@@ -31,7 +31,7 @@
         }
 
         protected void HandleOutputEvent(string message) => HandleEvent(OnOutput, message);
-        protected void HandleErrorEvent(string message) => HandleEvent(OnError, message); 
+        protected void HandleErrorEvent(string message) => HandleEvent(OnError, message);
         public abstract Tuple<Script, ScriptState> GetScriptSession(string command, ScriptOptions options = null);
         public abstract void InitEngineWithAssembly(Assembly parentAssembly);
 
