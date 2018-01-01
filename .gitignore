@@ -1,10 +1,12 @@
 .vs/*
 REPL.DI/bin/*
 REPL.Engine/bin/*
+REPL.Contracts/bin/*
 REPL.Service/bin/*
 REPL.SyntaxAnalyzer/bin/*
 REPLConsole/bin/*
 REPL.DI/obj/*
+REPL.Contracts/obj/*
 REPL.Engine/obj/*
 REPL.Service/obj/*
 REPL.SyntaxAnalyzer/obj/*
