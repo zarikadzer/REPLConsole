@@ -17,10 +17,11 @@
         static void Main(string[] args) {
             DoSomeWork();
             var sessionId = Guid.NewGuid();
-            var engine = ReplRepository.GetCSEngine(sessionId);
-            engine.OnOutput += Engine_OnOutput;
-            engine.OnError += Engine_OnError;
-            engine.InitEngineWithAssembly(typeof(Program).Assembly);
+            var engine = ReplRepository.GetCSEngine(sessionId, e => {
+                e.OnOutput += Engine_OnOutput;
+                e.OnError += Engine_OnError;
+                e.InitEngineWithAssembly(typeof(Program).Assembly);
+            });
 
             _console.WriteLineInfo("------------------------------------------------------------------------");
             _console.WriteLineInfo($" New code session started with Id: {sessionId}");

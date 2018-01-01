@@ -11,22 +11,20 @@
     public class EvalResult
     {
 
-        #region Constructors: Public
+        #region Constructors: Public        
 
-        public EvalResult() {
-        }
-
-        public EvalResult(string message, bool hasError = false) {
+        public EvalResult(Guid sessionId, string message, List<DiagnosticsResult> diagnostics, bool hasError = false) {
+            SessionId = sessionId;
             StringResult = message;
-            HasError = hasError;
-            Diagnostics = new List<DiagnosticsResult>();
-        }
-
-        public EvalResult(string message, List<DiagnosticsResult> diagnostics, bool hasError = false) : this(message, hasError) {
             Diagnostics = diagnostics;
+            HasError = hasError;
         }
 
         #endregion
+
+        [DataMember(Name = "session_id", IsRequired = true, Order = -1)]
+        public Guid SessionId { get; set; }
+
 
         [DataMember(Name = "string_result")]
         public string StringResult { get; set; }

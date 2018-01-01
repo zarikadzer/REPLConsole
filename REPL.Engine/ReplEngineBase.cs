@@ -47,11 +47,7 @@
             var hasWarnings = diagnostics.Any(x => x.Severity == DiagnosticSeverity.Warning);
             var diagResult = diagnostics.Select(x => new DiagnosticsResult(x.ToString(), x.Severity)).ToList();
             if (hasErrors) {
-                return new EvalResult {
-                    StringResult = hasErrors && hasWarnings ? "" : diagnostics.Select(x => x.ToString()).Aggregate((x, y) => $"{x}\r\n{y}"),
-                    Diagnostics = diagResult,
-                    HasError = hasErrors
-                };
+                return new EvalResult(SessionId, string.Empty, diagResult, true);
             }
 
             try {
@@ -61,17 +57,9 @@
                 if (result.Exception == null) {
                     ScriptSessions[SessionId] = new Tuple<Script, ScriptState>(script, result);
                 }
-                return new EvalResult {
-                    StringResult = result.ReturnValue?.ToString(),
-                    Diagnostics = diagResult,
-                    HasError = false
-                };
+                return new EvalResult(SessionId, result.ReturnValue?.ToString(), diagResult, false);
             } catch (Exception ex) {
-                return new EvalResult {
-                    StringResult = ex.Message,
-                    Diagnostics = new List<DiagnosticsResult>(),
-                    HasError = true
-                };
+                return new EvalResult(SessionId, ex.Message, new List<DiagnosticsResult>(), true);
             }
         }
     }
