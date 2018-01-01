@@ -1,14 +1,21 @@
+#Ignore files build by Visual Studio
 .vs/*
-REPL.DI/bin/*
-REPL.Engine/bin/*
-REPL.Contracts/bin/*
-REPL.Service/bin/*
-REPL.SyntaxAnalyzer/bin/*
-REPLConsole/bin/*
-REPL.DI/obj/*
-REPL.Contracts/obj/*
-REPL.Engine/obj/*
-REPL.Service/obj/*
-REPL.SyntaxAnalyzer/obj/*
-REPLConsole/obj/*
-*.csproj.user
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+*.user
+*.suo
+*.bak
+*.cache
+*.ilk
+*.log
+*.sbr
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+#ignore thumbnails created by windows
+Thumbs.db
