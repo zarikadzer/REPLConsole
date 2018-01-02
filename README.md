@@ -36,5 +36,4 @@ Program.aInjector.Bind(typeof(A), new ClassDebugger(new B()));
 Program.aInjector.ContainerMode = REPL.DI.ContainerMode.ReturnsFirst;
 ```
 ## Unsolved issues
-1. Side-effect: Processing of the previous *Console.WriteLine(...* commands.
-2. Memory Usage: Minimize a garbage.
+1. Memory Usage: Minimize a garbage.
