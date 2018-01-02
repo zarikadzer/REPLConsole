@@ -5,13 +5,13 @@
     using System.IO;
     using System.Text;
     using System.Threading;
-    using REPL.DI.Debugger;
-    using REPL.Engine;
     using REPL.SyntaxAnalyzer;
+	using REPL.DI.Debugger;
     using System.Linq;
     using Microsoft.CodeAnalysis;
+	using REPL.Engine;
 
-    public class Program
+	public class Program
     {
         private static ConsoleIO _console = ConsoleIO.Default;
         static void Main(string[] args) {

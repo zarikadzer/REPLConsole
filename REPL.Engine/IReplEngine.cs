@@ -1,8 +1,8 @@
 ﻿namespace REPL.Engine
 {
-    using REPL.Contracts;
+	using REPL.Contracts.Eval;
 
-    public interface IReplEngine
+	public interface IReplEngine
     {
         /// <summary>
         /// Executes the c# command without session.

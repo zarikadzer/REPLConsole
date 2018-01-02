@@ -7,8 +7,9 @@
     using Microsoft.CodeAnalysis.Scripting;
     using REPL.Contracts;
     using Microsoft.CodeAnalysis;
+	using REPL.Contracts.Eval;
 
-    public abstract class ReplEngineBase : IReplEngine
+	public abstract class ReplEngineBase : IReplEngine
     {
         protected static Dictionary<Guid, Tuple<Script, ScriptState>> ScriptSessions =
             new Dictionary<Guid, Tuple<Script, ScriptState>>();
