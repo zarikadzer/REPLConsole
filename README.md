@@ -8,6 +8,7 @@ C# REPL Engine and SyntaxAnalyzer features. My target is to create the remote RE
 2. Open the *Output* window at you Visual Studio IDE.
 3. Using the REPLConsole, create a new instance of the *A:IDebuggable* type and bind it with the static injector:
 ```c#
+using REPLConsole;
 var b = new A { Value = "New message" };
 Program.aInjector.Bind(typeof(A), new ClassDebugger(b));
 ```
@@ -35,5 +36,4 @@ Program.aInjector.Bind(typeof(A), new ClassDebugger(new B()));
 Program.aInjector.ContainerMode = REPL.DI.ContainerMode.ReturnsFirst;
 ```
 ## Unsolved issues
-1. Side-effect: Processing of the previous *Console.WriteLine(...* commands.
-2. Memory Usage: Minimize a garbage.
+1. Memory Usage: Minimize a garbage.

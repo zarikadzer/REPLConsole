@@ -8,18 +8,20 @@
     using REPL.DI.Debugger;
     using REPL.Engine;
     using REPL.SyntaxAnalyzer;
+    using System.Linq;
+    using Microsoft.CodeAnalysis;
 
     public class Program
     {
         private static ConsoleIO _console = ConsoleIO.Default;
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             DoSomeWork();
             var sessionId = Guid.NewGuid();
-            var engine = ReplRepository.GetCSEngine(sessionId);
-            engine.OnOutput += Engine_OnOutput;
-            engine.OnError += Engine_OnError;
-            engine.InitEngineWithAssembly(typeof(Program).Assembly);
+            var engine = ReplRepository.GetCSEngine(sessionId, e => {
+                e.OnOutput += Engine_OnOutput;
+                e.OnError += Engine_OnError;
+                e.InitEngineWithAssembly(typeof(Program).Assembly);
+            });
 
             _console.WriteLineInfo("------------------------------------------------------------------------");
             _console.WriteLineInfo($" New code session started with Id: {sessionId}");
@@ -36,10 +38,9 @@
             _console.Out.WriteLine(message);
         }
 
-        public static void ProcessRepl(ReplEngineBase engine, Guid sessionId)
-        {
+        public static void ProcessRepl(ReplEngineBase engine, Guid sessionId) {
             StringBuilder inputString = null;
-            while (inputString==null || inputString.ToString() .ToLower().TrimEnd() != "exit") {
+            while (inputString == null || inputString.ToString().ToLower().TrimEnd() != "exit") {
                 _console.WriteInfo("> ");
                 bool isSubmissionCompleted = false;
                 inputString = new StringBuilder("");
@@ -57,11 +58,27 @@
                 var evalResult = engine.Eval(inputString.ToString());
 
                 //Print
-                if (evalResult?.HasError ?? false) {
-                    _console.WriteErrorLine(evalResult);
-                } else {
-                    if (!string.IsNullOrEmpty(evalResult?.ToString())) {
+                if (evalResult == null) {
+                    continue;
+                }
+
+                if (!evalResult.HasError && !evalResult.HasWarnings) {
+                    if (!string.IsNullOrEmpty(evalResult.ToString())) {
                         _console.Out.WriteLine(evalResult);
+                    }
+                }
+
+                foreach (var d in evalResult.Diagnostics) {
+                    switch (d.Severity) {
+                        case DiagnosticSeverity.Error:
+                        _console.WriteErrorLine(d.Message as Object);
+                        break;
+                        case DiagnosticSeverity.Warning:
+                        _console.WriteWarningLine(d.Message as Object);
+                        break;
+                        default:
+                        _console.WriteLineInfo(d.Message as Object);
+                        break;
                     }
                 }
             }
@@ -91,21 +108,20 @@
             });
 
             action.BeginInvoke(null, null);
-        } 
+        }
 
         #endregion
     }
 
-    public class A: IDebuggable
+    public class A : IDebuggable
     {
         public string Value { get; set; }
         public string Value2 { get; set; }
 
-        public virtual DebugInfo GetDebugInfo()
-        {
+        public virtual DebugInfo GetDebugInfo() {
             return new DebugInfo(Value);
         }
-        
+
     }
- 
+
 }

@@ -1,27 +1,50 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace REPL.Contracts
+﻿namespace REPL.Contracts
 {
-	[DataContract(Name = "eval_result")]
-	public class EvalResult
-	{
-		public EvalResult() {
-		}
+    using Microsoft.CodeAnalysis;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.Serialization;
 
-		public EvalResult(string message, bool hasError = false) {
-			StringResult = message;
-			HasError = hasError;
-		}
+    [DataContract(Name = "eval_result")]
+    [Serializable]
+    public class EvalResult
+    {
 
-		[DataMember(Name = "string_result")]
-		public string StringResult { get; set; }
+        #region Constructors: Public        
 
-		[DataMember(Name = "has_error")]
-		public bool HasError { get; set; }
+        public EvalResult(Guid sessionId, string message, List<DiagnosticsResult> diagnostics, bool hasError = false) {
+            SessionId = sessionId;
+            StringResult = message;
+            Diagnostics = diagnostics;
+            HasError = hasError;
+        }
 
-		public override string ToString() {
-			return StringResult;
-		}
-	}
+        #endregion
+
+        [DataMember(Name = "session_id", IsRequired = true, Order = -1)]
+        public Guid SessionId { get; set; }
+
+
+        [DataMember(Name = "string_result")]
+        public string StringResult { get; set; }
+
+
+        [DataMember(Name = "diagnostics")]
+        public List<DiagnosticsResult> Diagnostics { get; set; }
+
+
+        [DataMember(Name = "has_error")]
+        public bool HasError { get; set; }
+
+        public bool HasWarnings
+        {
+            get {
+                return Diagnostics?.Any(x => x.Severity == DiagnosticSeverity.Warning) ?? false;
+            }
+        }
+        public override string ToString() {
+            return StringResult;
+        }
+    }
 }

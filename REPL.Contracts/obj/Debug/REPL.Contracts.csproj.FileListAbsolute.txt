@@ -1,5 +1,0 @@
-C:\git\REPLConsole\REPL.Contracts\bin\Debug\REPL.Contracts.dll
-C:\git\REPLConsole\REPL.Contracts\bin\Debug\REPL.Contracts.pdb
-C:\git\REPLConsole\REPL.Contracts\obj\Debug\REPL.Contracts.csproj.CoreCompileInputs.cache
-C:\git\REPLConsole\REPL.Contracts\obj\Debug\REPL.Contracts.dll
-C:\git\REPLConsole\REPL.Contracts\obj\Debug\REPL.Contracts.pdb
