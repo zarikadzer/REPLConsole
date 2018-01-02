@@ -37,3 +37,4 @@ Program.aInjector.ContainerMode = REPL.DI.ContainerMode.ReturnsFirst;
 ```
 ## Unsolved issues
 1. Memory Usage: Minimize a garbage.
+2. Web UI
