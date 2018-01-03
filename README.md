@@ -36,8 +36,8 @@ Program.aInjector.Bind(typeof(A), new ClassDebugger(new B()));
 Program.aInjector.ContainerMode = REPL.DI.ContainerMode.ReturnsFirst;
 ```
 ## Unsolved issues
-- Memory Usage: Minimize a garbage. 
- - Collectable assemblies
- - CSharpCodeProvider().CreateCompiler().CompileAssemblyFromSource
- - Others...
+1. Memory Usage: Minimize a garbage. 
+- Collectable assemblies
+- CSharpCodeProvider().CreateCompiler().CompileAssemblyFromSource
+- Others...
 2. Perf/Load testing.
