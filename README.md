@@ -39,5 +39,6 @@ Program.aInjector.ContainerMode = REPL.DI.ContainerMode.ReturnsFirst;
 1. Memory Usage: Minimize a garbage. 
 - Collectable assemblies
 - CSharpCodeProvider().CreateCompiler().CompileAssemblyFromSource
+- Using the MSIL Stream
 - Others...
 2. Perf/Load testing.
