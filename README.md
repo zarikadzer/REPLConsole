@@ -1,7 +1,7 @@
 # REPL Service
 C# REPL Engine and SyntaxAnalyzer features. My target is to create the remote REPL console for debugging purposes.
 
-![logo](https://github.com/zarikadzer/REPLConsole/blob/master/REPL_service_2.png)
+![logo](https://github.com/zarikadzer/REPLConsole/blob/master/REPL_service_3.png)
 
 ## Debug using the REPLConsole
 1. Build and Run the *REPLConsole* application in *Debug* mode. 
