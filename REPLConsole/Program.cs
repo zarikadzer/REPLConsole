@@ -10,7 +10,6 @@
 	using System.Linq;
 	using Microsoft.CodeAnalysis;
 	using REPL.Engine;
-
 	public class Program
 	{
 		private static ConsoleIO _console = ConsoleIO.Default;
