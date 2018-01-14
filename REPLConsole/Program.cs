@@ -15,7 +15,7 @@
 	{
 		private static ConsoleIO _console = ConsoleIO.Default;
 		static void Main(string[] args) {
-			DoSomeWork();
+            DoSomeWork();
 			var sessionId = Guid.NewGuid();
 			var engine = ReplRepository.GetCSEngine(sessionId, e => {
 				e.OnOutput += Engine_OnOutput;
@@ -41,21 +41,33 @@
 		public static void ProcessRepl(ReplEngineBase engine, Guid sessionId) {
 			StringBuilder inputString = null;
 			while (inputString == null || inputString.ToString().ToLower().TrimEnd() != "exit") {
+                beginOfTheLoop:
+
 				_console.WriteInfo("> ");
 				bool isSubmissionCompleted = false;
 				inputString = new StringBuilder("");
+				//Read
 				do {
-					//Read
 					inputString.AppendLine(_console.In.ReadLine());
-					var analyzer = new ReplAnalyzerCS(inputString.ToString());
-					isSubmissionCompleted = analyzer.IsCompleteSubmission();
+                    if (inputString.ToString().Trim() == "#reset") {
+                        engine.Reset(typeof(Program).Assembly);
+                        goto beginOfTheLoop;
+                    }
+                    var analyzer = new ReplAnalyzerCS(inputString.ToString());
+                    isSubmissionCompleted = analyzer.IsCompleteSubmission();
 					if (!isSubmissionCompleted) {
 						_console.WriteInfo(".\t");
 					}
-				} while (!isSubmissionCompleted);
+                    var compilation = (engine as ReplEngineCS)
+                        .GetScriptSession(inputString.ToString())
+                        .Item1
+                        .GetCompilation();
+                } while (!isSubmissionCompleted);
 
-				//Eval
-				var evalResult = engine.Eval(inputString.ToString());
+                
+
+                //Eval
+                var evalResult = engine.Eval(inputString.ToString());
 
 				//Print
 				if (evalResult == null) {

@@ -1,8 +1,10 @@
 ﻿namespace REPL.Engine
 {
-	using REPL.Contracts.Eval;
+    using System;
+    using System.Reflection;
+    using REPL.Contracts.Eval;
 
-	public interface IReplEngine
+    public interface IReplEngine
     {
         /// <summary>
         /// Executes the c# command without session.
@@ -11,5 +13,7 @@
         /// <param name="command">C# code.</param>
         /// <returns>String result.</returns>
         EvalResult Eval(string command);
+
+        void Reset(Assembly parentAssembly);
     }
 }

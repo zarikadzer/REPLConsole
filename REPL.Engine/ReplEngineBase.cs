@@ -11,6 +11,8 @@
 
 	public abstract class ReplEngineBase : IReplEngine
     {
+        private static readonly object _lockObject = new object();
+
         protected static Dictionary<Guid, Tuple<Script, ScriptState>> ScriptSessions =
             new Dictionary<Guid, Tuple<Script, ScriptState>>();
 
@@ -44,9 +46,11 @@
             var script = session.Item1;
             var scriptState = session.Item2;
             var diagnostics = script.Compile();
-            var hasErrors = diagnostics.Any(x => x.Severity == DiagnosticSeverity.Error || (x.Severity == DiagnosticSeverity.Warning && x.IsWarningAsError));
+            var hasErrors = diagnostics.Any(x => x.Severity == DiagnosticSeverity.Error
+                || (x.Severity == DiagnosticSeverity.Warning && x.IsWarningAsError));
             var hasWarnings = diagnostics.Any(x => x.Severity == DiagnosticSeverity.Warning);
             var diagResult = diagnostics.Select(x => new DiagnosticsResult(x.ToString(), x.Severity)).ToList();
+
             if (hasErrors) {
                 return new EvalResult(SessionId, string.Empty, diagResult, true);
             }
@@ -55,12 +59,29 @@
                 var result = scriptState != null
                     ? script.RunFromAsync(scriptState).GetAwaiter().GetResult()
                     : script.RunAsync().GetAwaiter().GetResult();
+                
                 if (result.Exception == null) {
                     ScriptSessions[SessionId] = new Tuple<Script, ScriptState>(script, result);
                 }
                 return new EvalResult(SessionId, result.ReturnValue?.ToString(), diagResult, false);
             } catch (Exception ex) {
                 return new EvalResult(SessionId, ex.Message, new List<DiagnosticsResult>(), true);
+            }
+        }
+
+        public void Reset(Assembly parentAssembly) {
+            lock (_lockObject) {
+                if (ScriptSessions.ContainsKey(SessionId)) {
+                    var scriptState = ScriptSessions[SessionId].Item2;
+                    foreach(var v in scriptState.Variables) {
+                        v.Value = null;
+                    }
+                    ScriptSessions.Remove(SessionId);
+                    GC.Collect();
+                    GC.Collect();
+                    GC.Collect(2, GCCollectionMode.Forced);
+                    InitEngineWithAssembly(parentAssembly);
+                }
             }
         }
     }
