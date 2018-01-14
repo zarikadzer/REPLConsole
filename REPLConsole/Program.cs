@@ -52,6 +52,9 @@
                     if (inputString.ToString().Trim() == "#reset") {
                         engine.Reset(typeof(Program).Assembly);
                         goto beginOfTheLoop;
+                    } else if (inputString.ToString().Trim() == "#replay") {
+                        engine.ReplayAll();
+                        goto beginOfTheLoop;
                     }
                     var analyzer = new ReplAnalyzerCS(inputString.ToString());
                     isSubmissionCompleted = analyzer.IsCompleteSubmission();

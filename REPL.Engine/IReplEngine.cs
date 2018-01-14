@@ -14,6 +14,16 @@
         /// <returns>String result.</returns>
         EvalResult Eval(string command);
 
+        /// <summary>
+        /// Removes the whole script and all variables.
+        /// </summary>
+        /// <param name="parentAssembly">An executing assembly to initialize new state.</param>
         void Reset(Assembly parentAssembly);
+
+        /// <summary>
+        /// Replays all the submissions from the very beginning of the script.
+        /// </summary>
+        /// <returns>All string results with all diagnostics.</returns>
+        EvalResult ReplayAll();
     }
 }

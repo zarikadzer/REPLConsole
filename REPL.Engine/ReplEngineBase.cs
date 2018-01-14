@@ -7,9 +7,9 @@
     using Microsoft.CodeAnalysis.Scripting;
     using REPL.Contracts;
     using Microsoft.CodeAnalysis;
-	using REPL.Contracts.Eval;
+    using REPL.Contracts.Eval;
 
-	public abstract class ReplEngineBase : IReplEngine
+    public abstract class ReplEngineBase : IReplEngine
     {
         private static readonly object _lockObject = new object();
 
@@ -59,7 +59,7 @@
                 var result = scriptState != null
                     ? script.RunFromAsync(scriptState).GetAwaiter().GetResult()
                     : script.RunAsync().GetAwaiter().GetResult();
-                
+
                 if (result.Exception == null) {
                     ScriptSessions[SessionId] = new Tuple<Script, ScriptState>(script, result);
                 }
@@ -73,7 +73,7 @@
             lock (_lockObject) {
                 if (ScriptSessions.ContainsKey(SessionId)) {
                     var scriptState = ScriptSessions[SessionId].Item2;
-                    foreach(var v in scriptState.Variables) {
+                    foreach (var v in scriptState.Variables) {
                         v.Value = null;
                     }
                     ScriptSessions.Remove(SessionId);
@@ -82,6 +82,24 @@
                     GC.Collect(2, GCCollectionMode.Forced);
                     InitEngineWithAssembly(parentAssembly);
                 }
+            }
+        }
+
+        public EvalResult ReplayAll() {
+            if (!ScriptSessions.ContainsKey(SessionId)) {
+                return null;
+            }
+            var script = ScriptSessions[SessionId].Item1;
+            var diagnostics = script.Compile();
+            var diagResult = diagnostics.Select(x => new DiagnosticsResult(x.ToString(), x.Severity)).ToList();
+            try {
+                var result = script.RunAsync().GetAwaiter().GetResult();
+                if (result.Exception == null) {
+                    ScriptSessions[SessionId] = new Tuple<Script, ScriptState>(script, result);
+                }
+                return new EvalResult(SessionId, result.ReturnValue?.ToString(), diagResult, false);
+            } catch (Exception ex) {
+                return new EvalResult(SessionId, ex.Message, new List<DiagnosticsResult>(), true);
             }
         }
     }
