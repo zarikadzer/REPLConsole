@@ -1,9 +1,9 @@
 # REPL Service
 C# REPL Engine and SyntaxAnalyzer features. My target is to create the remote REPL console for debugging purposes.
 
-![logo](https://github.com/zarikadzer/REPLConsole/blob/master/REPL_service.png)
+![logo](https://github.com/zarikadzer/REPLConsole/blob/master/REPL_service_3.png)
 
-## Debugging example using REPLConsole
+## Debug using the REPLConsole
 1. Build and Run the *REPLConsole* application in *Debug* mode. 
 2. Open the *Output* window at you Visual Studio IDE.
 3. Using the REPLConsole, create a new instance of the *A:IDebuggable* type and bind it with the static injector:
@@ -36,5 +36,9 @@ Program.aInjector.Bind(typeof(A), new ClassDebugger(new B()));
 Program.aInjector.ContainerMode = REPL.DI.ContainerMode.ReturnsFirst;
 ```
 ## Unsolved issues
-1. Memory Usage: Minimize a garbage.
-2. Web UI
+1. Memory Usage: Minimize a garbage. 
+- Collectable assemblies
+- CSharpCodeProvider().CreateCompiler().CompileAssemblyFromSource
+- Using the MSIL Stream
+- Others...
+2. Perf/Load testing.
