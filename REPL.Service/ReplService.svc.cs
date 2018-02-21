@@ -16,7 +16,7 @@
 			if (!analyzer.IsCompleteSubmission()) {
 				return EvalResult.Error(request.SessionId, "Submission is not completed!");
 			}
-			var engine = ReplRepository.GetCSEngine(request.SessionId, e => {
+			var engine = ReplFactory.GetCSEngine(request.SessionId, e => {
 				e.InitEngineWithAssembly(typeof(ReplService).Assembly);
 			});
 			return engine.Eval(request.Code);
@@ -27,7 +27,7 @@
 			if (!analyzer.IsCompleteSubmission()) {
 				return EvalResult.Error(request.SessionId, "Submission is not completed!");
 			}
-			var engine = ReplRepository.GetCSEngine(request.SessionId, e => {
+			var engine = ReplFactory.GetCSEngine(request.SessionId, e => {
 				e.InitEngineWithAssembly(typeof(ReplService).Assembly);
 			});
 			var diagnostics = engine.Validate(request.Code, out var script, out var scriptState);
@@ -39,7 +39,7 @@
 		public EvalResult ResetCS(EvalRequest request) {
 			var response = EvalResult.Empty(request.SessionId);
 			response.StringResult = $"Total Memory: {System.GC.GetTotalMemory(false)} bytes -> ";
-			var engine = ReplRepository.GetCSEngine(request.SessionId, e => {
+			var engine = ReplFactory.GetCSEngine(request.SessionId, e => {
 				e.Reset(typeof(ReplService).Assembly);
 			});
 			response.StringResult += $"{System.GC.GetTotalMemory(true)} bytes";

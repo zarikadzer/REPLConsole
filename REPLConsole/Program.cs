@@ -16,7 +16,7 @@
 		static void Main(string[] args) {
 			DoSomeWork();
 			var sessionId = Guid.NewGuid();
-			var engine = ReplRepository.GetCSEngine(sessionId, e => {
+			var engine = ReplFactory.GetCSEngine(sessionId, e => {
 				e.OnOutput += Engine_OnOutput;
 				e.OnError += Engine_OnError;
 				e.InitEngineWithAssembly(typeof(Program).Assembly);

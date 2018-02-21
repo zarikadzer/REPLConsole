@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class ReplRepository
+    public class ReplFactory
     {
         private static readonly object _lockObject = new object();
         private static Dictionary<Guid, WeakReference<ReplEngineBase>> _replEngines =

@@ -12,6 +12,7 @@
 		/// <param name="command">C# code.</param>
 		/// <returns>String result.</returns>
 		EvalResult Eval(string command);
+
 		/// <summary>
 		/// Removes the whole script and all variables.
 		/// </summary>
