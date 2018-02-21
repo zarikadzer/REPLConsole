@@ -40,17 +40,30 @@
 		public static void ProcessRepl(ReplEngineBase engine, Guid sessionId) {
 			StringBuilder inputString = null;
 			while (inputString == null || inputString.ToString().ToLower().TrimEnd() != "exit") {
+			beginOfTheLoop:
 				_console.WriteInfo("> ");
 				bool isSubmissionCompleted = false;
 				inputString = new StringBuilder("");
+
+				//Read
 				do {
-					//Read
 					inputString.AppendLine(_console.In.ReadLine());
+					if (inputString.ToString().Trim() == "#reset") {
+						engine.Reset(typeof(Program).Assembly);
+						goto beginOfTheLoop;
+					} else if (inputString.ToString().Trim() == "#replay") {
+						engine.ReplayAll();
+						goto beginOfTheLoop;
+					}
 					var analyzer = new ReplAnalyzerCS(inputString.ToString());
 					isSubmissionCompleted = analyzer.IsCompleteSubmission();
 					if (!isSubmissionCompleted) {
 						_console.WriteInfo(".\t");
 					}
+					var compilation = (engine as ReplEngineCS)
+						.GetAndContinueScriptSession(inputString.ToString())
+						.Item1
+						.GetCompilation();
 				} while (!isSubmissionCompleted);
 
 				//Eval

@@ -2,7 +2,6 @@
 {
 	using System.ComponentModel;
 	using System.ServiceModel;
-	using System.ServiceModel.Activation;
 	using System.ServiceModel.Web;
 	using REPL.Contracts.Eval;
 
@@ -18,5 +17,10 @@
 		[WebInvoke(Method = "POST", UriTemplate = "cs/validate", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
 		[Description("Validates the C# code and returns the EvalResult object.")]
 		EvalResult ValidateCS(EvalRequest request);
+
+		[OperationContract]
+		[WebInvoke(Method = "POST", UriTemplate = "cs/reset", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+		[Description("Removes the whole script and all referenced variables.")]
+		EvalResult ResetCS(EvalRequest request);
 	}
 }
