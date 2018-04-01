@@ -24,3 +24,11 @@ Thumbs.db
 
 
 /UpgradeLog.htm
+REPL.Contracts/bin/Debug/REPL.Contracts.dll.config
+REPL.Contracts/bin/Debug/System.Reflection.Metadata.dll
+REPL.Contracts/bin/Debug/System.Reflection.Metadata.xml
+REPL.Contracts/bin/Debug/System.Text.Encoding.CodePages.dll
+REPL.Contracts/project.lock.json
+REPL.Contracts/REPL.Contracts.nuget.props
+REPL.DI/project.lock.json
+REPL.DI/REPL.DI.nuget.props

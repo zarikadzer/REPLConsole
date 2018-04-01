@@ -30,7 +30,7 @@
 					var initRefsResult = Eval(loadDllCmd);
 					HandleOutputEvent(loadDllCmd + initRefsResult);
 				}
-			} catch (Exception e){
+			} catch {
 				//TODO: Add logging
 			}
 

@@ -5,9 +5,11 @@
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Microsoft.CodeAnalysis.Host.Mef;
 
     public class ReplAnalyzerCS
     {
+
         public ReplAnalyzerCS(string code) {
             Code = code;
         }
@@ -31,8 +33,8 @@
             if (!tree.HasCompilationUnitRoot) {
                 return false;
             }
-
             var compilation = (CompilationUnitSyntax)tree.GetRoot();
+
             if (!compilation.GetDiagnostics().Any()) {
                 return true;
             }
