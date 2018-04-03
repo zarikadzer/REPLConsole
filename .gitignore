@@ -22,7 +22,7 @@ obj/
 Thumbs.db
 
 
-
+REPL.Contracts/bin/*
 /UpgradeLog.htm
 REPL.Contracts/bin/Debug/REPL.Contracts.dll.config
 REPL.Contracts/bin/Debug/System.Reflection.Metadata.dll
@@ -32,3 +32,11 @@ REPL.Contracts/project.lock.json
 REPL.Contracts/REPL.Contracts.nuget.props
 REPL.DI/project.lock.json
 REPL.DI/REPL.DI.nuget.props
+REPL.Engine/project.lock.json
+REPL.Engine/REPL.Engine.nuget.props
+REPL.Service/project.lock.json
+REPL.Service/REPL.Service.nuget.props
+REPL.SyntaxAnalyzer/project.lock.json
+REPL.SyntaxAnalyzer/REPL.SyntaxAnalyzer.nuget.props
+REPLConsole/project.lock.json
+REPLConsole/REPL.Console.nuget.props
