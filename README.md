@@ -1,5 +1,5 @@
 # REPL Service
-C# REPL Engine and SyntaxAnalyzer features. My target is to create the remote REPL console for debugging purposes.
+C# REPL Engine and SyntaxAnalyzer features. Projects goal is to create the remote REPL console for debugging purposes.
 
 ![logo](https://github.com/zarikadzer/REPLConsole/blob/master/REPL_service_3.png)
 
